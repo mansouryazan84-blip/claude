@@ -7,7 +7,7 @@
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "dev:frontend": "vite",
     "dev:backend": "cd Backend && npm run start:dev",
-    "build": "tsc -b && vite build",
+    "build": "npx tsc -b && vite build",
     "build:frontend": "vite build",
     "build:backend": "cd Backend && npm run build",
     "build:all": "npm run build:backend && npm run build:frontend",
