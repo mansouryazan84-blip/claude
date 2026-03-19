@@ -25,6 +25,7 @@ const Fleet          = lazy(() => import('@/pages/Fleet'));
 const Audit          = lazy(() => import('@/pages/Audit'));
 const Reports        = lazy(() => import('@/pages/Reports'));
 const NotFound       = lazy(() => import('@/pages/NotFound'));
+const Landing        = lazy(() => import('@/pages/Landing'));
 const Login          = lazy(() => import('@/pages/auth/Login'));
 const Register       = lazy(() => import('@/pages/auth/Register'));
 const ForgotPassword = lazy(() => import('@/pages/auth/ForgotPassword'));
@@ -54,10 +55,10 @@ interface RouteConfig {
   breadcrumbs: BreadcrumbEntry[];
 }
 
-const CRUMB_HOME: BreadcrumbEntry = { title: 'لوحة التحكم', href: '/' };
+const CRUMB_HOME: BreadcrumbEntry = { title: 'لوحة التحكم', href: '/dashboard' };
 
 const routes: RouteConfig[] = [
-  { path: '/',           element: Dashboard,  breadcrumbs: [{ title: 'لوحة التحكم' }] },
+  { path: '/dashboard',   element: Dashboard,  breadcrumbs: [{ title: 'لوحة التحكم' }] },
   { path: '/inventory',  element: Inventory,  breadcrumbs: [CRUMB_HOME, { title: 'المخزون' }] },
   { path: '/items',      element: Items,      breadcrumbs: [CRUMB_HOME, { title: 'الأصناف' }] },
   { path: '/transfers',  element: Transfers,  breadcrumbs: [CRUMB_HOME, { title: 'المناقلات' }] },
@@ -98,7 +99,7 @@ function ProtectedRoute() {
 function GuestRoute() {
   const { isAuthenticated, isLoading } = useAuth();
   if (isLoading) return null;
-  return isAuthenticated ? <Navigate to="/" replace /> : <Outlet />;
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Outlet />;
 }
 
 // ─── Suspense wrapper ─────────────────────────────────────
@@ -140,6 +141,8 @@ export default function App() {
             <Sonner />
             <BrowserRouter>
               <Routes>
+                <Route path="/" element={<PageLoader><Landing /></PageLoader>} />
+
                 {/* ── Guest ───────────────────────────────── */}
                 <Route element={<GuestRoute />}>
                   <Route path="/login"           element={<PageLoader><Login /></PageLoader>} />
